@@ -1,0 +1,44 @@
+﻿@model TodoList.Models.TodoModel;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta charset="utf-8" />
+        <title>Edit List</title>
+        <link href="~/css/form.css" rel="stylesheet" />
+    </head>
+    <body>
+        <section>
+            <h1>To do list</h1>
+            <div class="form-container">
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-action="UpdateTodo" asp-controller="Todo">
+                    <input type="text" asp-for="Id" value="@Model.Id" hidden/>
+                    <div class="description">
+                        <label for="Description"></label>
+                        <input asp-for="Description" type="text" value="@Model.Description" />
+                    </div>
+                    <div class="deadline">
+                        <label for="Deadline"></label>
+                        <input asp-for="Deadline" type="date" value="@Model.Deadline" />
+                    </div>
+                    <div class="category">
+                        <label for="CategoryId"></label>
+                        <select asp-for="CategoryId" value="@Model.CategoryId">
+                            <option value="@null">No category</option>
+                            <option value="1">Home</option>
+                            <option value="2">Education</option>
+                            <option value="3">Work</option>
+                        </select>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>

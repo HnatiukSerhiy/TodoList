@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TodoList.Models.CategoryModel>;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta charset="utf-8" />
+        <title>Todo List</title>
+        <link href="~/css/categorylist.css" rel="stylesheet" />
+    </head>
+    <script src="~/js/ConfrimWindow.js" defer type="text/javascript"></script>
+    <body>
+        <header>
+            <h1>Categories</h1>
+            <a class="btn" asp-action="GetCreatePage" asp-controller="Category">Create Category</a>
+            <a class="btn" asp-action="Index" asp-controller="Home">Back to todo list</a>
+        </header>
+        <main>
+            <section class="category-list">
+                <table>
+                        @foreach(CategoryModel item in Model)
+                        {
+                            <tr class="category-item">
+                                <td class="category-name">@item.CategoryName</td>
+                                <td class="edit-container"><a class="edit-btn" asp-action="GetEditPage" asp-controller="Category" asp-route-id="@item.Id"></a></td>
+                                <td class="del-container"><a class="del-btn" asp-action="DeleteCategory" asp-controller="Category" asp-route-id="@item.Id"></a></td>
+                            </tr>
+                        }
+                </table>
+            </section>
+        </main>
+    </body>
+</html>

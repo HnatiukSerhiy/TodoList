@@ -1,0 +1,175 @@
+﻿body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 285px;
+    background: url('../img/Rectangle_24.jpg') no-repeat center;
+    background-size: inherit;
+    color: white;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 59px;
+    letter-spacing: 0.2em;
+}
+
+.btn {
+    display: block;
+    width: 225px;
+    height: 60px;
+    background: #9B51E0;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    text-align: center;
+    padding: 18px 0;
+    margin: auto;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+main {
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    align-items:center;
+}
+
+main .filter-container select, main .filter-container option {
+    width: 225px;
+    height: 45px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding-left: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+table {
+    border-collapse:collapse;
+}
+
+main .filter-container {
+    width:700px;
+    margin-left:10px;
+    margin-right:auto;
+}
+
+main form {
+    display: flex;
+    justify-content:flex-start;
+    gap: 10px;
+}
+
+main .filter-container button {
+    width: 225px;
+    height: 45px;
+    background: #9B51E0;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.current-tasks, .done-tasks {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+h3 {
+    font-size: 32px;
+    line-height: 39px;
+    letter-spacing: 0.1em;
+}
+
+.todo-item {
+    display: grid;
+    
+    gap:20px;
+    margin-bottom:10px;
+    padding:0 30px;
+    width: 1196px;
+    height: 62px;
+    
+    border-radius: 10px;
+}
+
+.current-tasks .todo-item {
+    grid-template-columns: 500px 200px 200px 50px 50px 50px;
+    background-color: rgba(199, 173, 219, 0.7);
+}
+
+.done-tasks .todo-item {
+    grid-template-columns: 500px 200px 200px 190px;
+    background: #C4C4C4;
+}
+
+td {
+    display: flex;
+    align-items: center;
+}
+
+.deadline, .category, .done-time {
+    background-color: white;
+    height:45px;
+    width:160px;
+        
+    justify-content:center;
+
+    align-self:center;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.current-tasks a, .done-tasks a {
+    display: block;
+    width: 50px;
+    height: 50px;
+}
+
+.done {
+    background:url('../img/Done.png') no-repeat center;
+}
+
+.edit {
+    background: url('../img/Edit.png') no-repeat center;
+}
+
+.delete {
+    background: url('../img/Delete.png') no-repeat center;
+}
+
+.delete-container {
+    display:flex;
+    justify-content: flex-end;
+}
+
+.btn:hover {
+    background: rgba(199, 173, 219, 0.9);
+}

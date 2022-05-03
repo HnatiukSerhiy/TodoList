@@ -1,0 +1,29 @@
+﻿@model TodoList.Models.CategoryModel;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta charset="utf-8" />
+        <title>Edit List</title>
+        <link href="~/css/categorylist.css" rel="stylesheet" />
+    </head>
+    <body>
+        <section>
+            <div class="form-container">
+                <h1>Create Category</h1>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-action="CreateCategory" asp-controller="Category">
+                    <div class="category-name">
+                        <input type="text" asp-for="CategoryName" />
+                    </div>
+                    <button type="submit">Add category</button>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>

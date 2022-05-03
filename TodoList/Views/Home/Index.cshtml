@@ -1,0 +1,91 @@
+﻿@model TodoList.Models.HomeModel;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta charset="utf-8" />
+        <title>Todo List</title>
+        <link href="~/css/index.css" rel="stylesheet" />
+    </head>
+    <script src="~/js/ConfrimWindow.js" defer type="text/javascript"></script>
+    <body>
+        <header>
+            <h1>To do list</h1>
+            <a class="btn" asp-action="GetCreateTodoForm" asp-controller="Todo">Create Todo</a>
+            <a class="btn" asp-action="GetCategoryList" asp-controller="Category">Edit Categories</a>
+        </header>
+        <main>
+            <div class="filter-container">
+                <form method="get" asp-action="Index" asp-controller="Home">
+                    <div class="sort-container">
+                        <select name="categoryId">
+                            <option value="null">No filter</option>
+                            @if (Model.CategoryList != null)
+                            {
+                                @foreach(CategoryModel item in Model.CategoryList)
+                                {
+                                    <option value="@item.Id">@item.CategoryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button type="submit">Filter</button>
+                </form>
+            </div>
+
+            <section class="current-tasks">
+                <h3>Current Tasks</h3>
+                <table class=list-items>
+                    @if(Model.UnCompleteTodoList != null)
+                    {
+                        @foreach(TodoModel item in Model.UnCompleteTodoList)
+                        {
+                            <tr class="todo-item">
+                                <td class="description">@item.Description</td>
+                                <td class="deadline">
+                                    @if (@item.Deadline == null) {
+                                        @null
+                                    } else {
+                                       @: @item.Deadline.Value.Day.@item.Deadline.Value.Month.@item.Deadline.Value.Year
+                                    }
+                                </td>
+                                <td class="category">@item.CategoryName</td>
+                                <td class="done"><a asp-action="SolveTodo" asp-controller="Todo" asp-route-id="@item.Id"></a></td>
+                                <td class="edit"><a asp-action="GetEditFormTodo" asp-controller="Todo" asp-route-id="@item.Id"></a></td>
+                                <td class="delete"><a class="del-link" asp-action="DeleteTodo" asp-controller="Todo" asp-route-id="@item.Id"></a></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </section>
+
+            <section class="done-tasks">
+                    <h3>Done Tasks</h3>
+                    <table class=list-items>
+                        @if (Model.CompleteTodoList != null)
+                        {
+                            @foreach(TodoModel item in Model.CompleteTodoList)
+                            {
+                                <tr class="todo-item">
+                                    <td class="description">@item.Description</td>
+                                    <td class="done-time">
+                                    @if (item.DoneTime.HasValue)
+                                    {
+                                        @: @item.DoneTime.Value.Day.@item.DoneTime.Value.Month.@item.DoneTime.Value.Year
+                                    }
+                                </td>
+                                    <td class="category">@item.CategoryName</td>
+                                    <td class="delete-container"><a class="delete del-link" asp-action="DeleteTodo" asp-controller="Todo" asp-route-id="@item.Id"></a></td>
+                                </tr>
+                            }
+                        }
+                    </table>
+            </section>
+        </main>
+    </body>
+</html>
