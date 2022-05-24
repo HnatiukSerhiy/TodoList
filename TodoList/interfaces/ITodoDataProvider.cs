@@ -6,10 +6,10 @@ namespace TodoList.interfaces
     {
         IEnumerable<TodoModel> GetCompleteTodo(int? categoryId);
         IEnumerable<TodoModel> GetUnCompleteTodo(int? categoryId);
-        void CreateTodo(TodoModel model);
-        void SolveTodo(int id);
-        TodoModel EditTodo(int id);
-        void UpdateTodo(TodoModel model);
-        void DeleteTodo(int id);
+        TodoModel CreateTodo(TodoModel model);
+        int SolveTodo(int id);
+        TodoModel GetTodoById(int id);
+        TodoModel UpdateTodo(TodoModel model);
+        int DeleteTodo(int id);
     }
 }

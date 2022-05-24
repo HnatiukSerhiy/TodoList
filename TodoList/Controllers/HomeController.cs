@@ -1,33 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using TodoList.Models;
-using System.Data.SqlClient;
-using System.Data;
-using System.Configuration;
-using TodoList.DataAccess;
 using TodoList.interfaces;
+using TodoList.DataAccess;
 
 
 namespace TodoList.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ITodoDataProvider todoSqlProcedure;
+        private ITodoDataProvider todoDataProvider;
 
-        private readonly ICategoryDataProvider categorySqlProcedure;
+        private ICategoryDataProvider categoryDataProvider;
 
-        public HomeController(ITodoDataProvider todoProcedure, ICategoryDataProvider categoryProcedure)
+        public HomeController(IDataProviderResolver dataProviderResolver)
         {
-            this.todoSqlProcedure = todoProcedure;
-            this.categorySqlProcedure = categoryProcedure;
+            this.todoDataProvider = dataProviderResolver.GetTodoDataProvider(SourceDataRepository.SourceName);
+            this.categoryDataProvider = dataProviderResolver.GetCategoryDataProvider(SourceDataRepository.SourceName); 
         }
     
         [HttpGet]
         public ActionResult Index(int? categoryId)
         {
-            var completeList = todoSqlProcedure.GetCompleteTodo(categoryId);
-            var unCompleteList = todoSqlProcedure.GetUnCompleteTodo(categoryId);
-            var categoryList = categorySqlProcedure.GetCategoryList();
+            var completeList = todoDataProvider.GetCompleteTodo(categoryId);
+            var unCompleteList = todoDataProvider.GetUnCompleteTodo(categoryId);
+            var categoryList = categoryDataProvider.GetCategoryList();
 
             HomeModel model = new HomeModel
             {
@@ -37,6 +33,14 @@ namespace TodoList.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ChangeDataSource(string dataSource)
+        {
+            SourceDataRepository.SourceName = dataSource;
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TodoList>
+  <Todo>
+    <Id>1</Id>
+    <Description>asdasd</Description>
+    <IsDone>True</IsDone>
+    <Deadline>2022-5-10</Deadline>
+    <DoneTime>2022-5-9</DoneTime>
+    <CategoryId>2</CategoryId>
+  </Todo>
+  <Todo>
+    <Id>2</Id>
+    <Description>dvdvfdfvdv</Description>
+    <IsDone>True</IsDone>
+    <Deadline>2022-5-20</Deadline>
+    <DoneTime>2022-5-9</DoneTime>
+    <CategoryId>
+    </CategoryId>
+  </Todo>
+  <Todo>
+    <Id>8</Id>
+    <Description>testing category work</Description>
+    <IsDone>False</IsDone>
+    <Deadline>2022-5-15</Deadline>
+    <DoneTime />
+    <CategoryId>3</CategoryId>
+  </Todo>
+  <Todo>
+    <Id>10</Id>
+    <Description>sfsdfsdf</Description>
+    <IsDone>False</IsDone>
+    <Deadline>2022-5-9</Deadline>
+    <DoneTime />
+    <CategoryId>
+    </CategoryId>
+  </Todo>
+  <Todo>
+    <Id>12</Id>
+    <Description>some text</Description>
+    <IsDone>False</IsDone>
+    <Deadline>2022-4-25</Deadline>
+    <DoneTime />
+    <CategoryId>3</CategoryId>
+  </Todo>
+</TodoList>

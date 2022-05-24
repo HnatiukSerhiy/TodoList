@@ -5,11 +5,11 @@ using TodoList.interfaces;
 
 namespace TodoList.DataAccess
 {
-    public class TodoDataProvider : ITodoDataProvider
+    public class TodoSqlDataProvider : ITodoDataProvider
     {
         private readonly string connectionString;
 
-        public TodoDataProvider(string connectionString)
+        public TodoSqlDataProvider(string connectionString)
         {
             this.connectionString = connectionString;
         }
@@ -34,7 +34,7 @@ namespace TodoList.DataAccess
                 var todoList = connection.Query<TodoModel, CategoryModel, TodoModel>(selectQuery, map: (todo, category) =>
                 {
                     todo.CategoryId = category != null ? category.Id : null;
-                    todo.CategoryName = category != null ? category.CategoryName : null;
+                    todo.CategoryName = category != null ? category.Name : null;
 
                     return todo;
 
@@ -63,7 +63,7 @@ namespace TodoList.DataAccess
                 var todoList = connection.Query<TodoModel, CategoryModel, TodoModel>(selectQuery, map: (todo, category) =>
                 {
                     todo.CategoryId = category != null ? category.Id : null;
-                    todo.CategoryName = category != null ? category.CategoryName : null;
+                    todo.CategoryName = category != null ? category.Name : null;
 
                     return todo;
 
@@ -73,7 +73,7 @@ namespace TodoList.DataAccess
             }
         }
 
-        public void CreateTodo(TodoModel todoModel)
+        public TodoModel CreateTodo(TodoModel todoModel)
         {
             var parameters = new 
             { 
@@ -94,9 +94,11 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(insertQuery, parameters);
             }
+
+            return todoModel;
         }
 
-        public void SolveTodo(int id)
+        public int SolveTodo(int id)
         {
             var parameters = new
             {
@@ -112,9 +114,11 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(updateQuery, parameters);
             }
+
+            return id;
         }
 
-        public TodoModel EditTodo(int id)
+        public TodoModel GetTodoById(int id)
         {
             var parameters = new
             {
@@ -128,20 +132,20 @@ namespace TodoList.DataAccess
             {
                 connection.Open();
                 
-                var todo = connection.Query<TodoModel, CategoryModel, TodoModel>(selectQuery, map: (todo, category) =>
+                var todoItem = connection.Query<TodoModel, CategoryModel, TodoModel>(selectQuery, map: (todo, category) =>
                 {
                     todo.CategoryId = category != null ? category.Id : null;
-                    todo.CategoryName = category != null ? category.CategoryName : null;
+                    todo.CategoryName = category != null ? category.Name : null;
 
                     return todo;
 
                 }, parameters).LastOrDefault();
 
-                return todo;
+                return todoItem != null ? todoItem : new TodoModel();
             }
         }
 
-        public void UpdateTodo(TodoModel todoModel)
+        public TodoModel UpdateTodo(TodoModel todoModel)
         {
             var parameters = new
             {
@@ -160,9 +164,11 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(updateQuery, parameters);
             }
+
+            return todoModel;
         }
 
-        public void DeleteTodo(int id)
+        public int DeleteTodo(int id)
         {
             var parameters = new
             {
@@ -176,6 +182,8 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(deleteQuery, parameters);
             }
+
+            return id;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model TodoList.Models.HomeModel;
+﻿@using TodoList.DataAccess;
+@model TodoList.Models.HomeModel;
 
 @{
     Layout = null;
@@ -16,8 +17,33 @@
     <body>
         <header>
             <h1>To do list</h1>
-            <a class="btn" asp-action="GetCreateTodoForm" asp-controller="Todo">Create Todo</a>
-            <a class="btn" asp-action="GetCategoryList" asp-controller="Category">Edit Categories</a>
+             <div class="form-container">
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-action="CreateTodo" asp-controller="Todo">
+                    <div class="description-input">
+                        <label for="Description"></label>
+                        <input type="text" name="Description" id="Description" placeholder="Type new todo item here..." />
+                    </div>
+                    <div class="deadline-input">
+                        <label for="Deadline"></label>
+                        <input type="date" name="Deadline" id="Deadline" />
+                    </div>
+                    <div class="category-input">
+                        <label for="CategoryId"></label>
+                        <select name="CategoryId" id="CategoryId">
+                            <option value="@null">No category</option>
+                            @if (Model.CategoryList != null)
+                            {
+                                @foreach(CategoryModel item in Model.CategoryList)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button class="add-btn" type="submit">Add task</button>
+                </form>
+            </div>
         </header>
         <main>
             <div class="filter-container">
@@ -29,21 +55,32 @@
                             {
                                 @foreach(CategoryModel item in Model.CategoryList)
                                 {
-                                    <option value="@item.Id">@item.CategoryName</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
                     </div>
-                    <button type="submit">Filter</button>
+                    <button class="filter-btn" type="submit"></button>
+                </form>
+                <a class="edit-category-btn" asp-action="GetCategoryList" asp-controller="Category"></a>
+            </div>
+            <div class="data-source-container">
+                <form method="get" asp-action="ChangeDataSource">
+                    <label for="dataSource"></label>
+                    <select name="dataSource">
+                        <!option value="sql" @(SourceDataRepository.SourceName == "sql" ? "selected" : "")>SQl Server</!option>
+                        <!option value="xml" @(SourceDataRepository.SourceName == "xml" ? "selected" : "")>XML Storage</!option>
+                    </select>
+                    <button type="submit">Use</button>
                 </form>
             </div>
 
             <section class="current-tasks">
                 <h3>Current Tasks</h3>
                 <table class=list-items>
-                    @if(Model.UnCompleteTodoList != null)
+                    @if (Model.UnCompleteTodoList != null)
                     {
-                        @foreach(TodoModel item in Model.UnCompleteTodoList)
+                        @foreach (TodoModel item in Model.UnCompleteTodoList)
                         {
                             <tr class="todo-item">
                                 <td class="description">@item.Description</td>

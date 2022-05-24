@@ -20,7 +20,7 @@
                 <form method="post" asp-action="UpdateCategory" asp-controller="Category">
                     <input type="text" asp-for="Id" value="@Model.Id" hidden/>
                     <div class="category-name">
-                        <input asp-for="CategoryName" type="text" value="@Model.CategoryName" />
+                        <input asp-for="Name" type="text" value="@Model.Name" />
                     </div>
                     <button type="submit">Save Changes</button>
                 </form>

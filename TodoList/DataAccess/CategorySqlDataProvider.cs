@@ -5,17 +5,17 @@ using TodoList.interfaces;
 
 namespace TodoList.DataAccess
 {
-    public class CategoryDataProvider : ICategoryDataProvider
+    public class CategorySqlDataProvider : ICategoryDataProvider
     {
         private readonly string connectionString;
 
         private readonly CategoryBuilder categoryBuilder = new CategoryBuilder();
-        public CategoryDataProvider(string connectionString)
+        public CategorySqlDataProvider(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public List<CategoryModel> GetCategoryList()
+        public IEnumerable<CategoryModel> GetCategoryList()
         {
             string selectQuery = "select * from dbo.Category";
 
@@ -28,14 +28,14 @@ namespace TodoList.DataAccess
             }
         }
 
-        public void CreateCategory(CategoryModel model)
+        public CategoryModel CreateCategory(CategoryModel categoryModel)
         {
             var parameters = new
             {
-                categoryName = model.CategoryName
+                categoryName = categoryModel.Name
             };
 
-            string insertQuery = $@"insert into dbo.Category (CategoryName)
+            string insertQuery = $@"insert into dbo.Category (Name)
                                     values(@categoryName)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -43,9 +43,11 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(insertQuery, parameters);
             }
+
+            return categoryModel;
         }
 
-        public CategoryModel EditCategory(int id)
+        public CategoryModel GetCategoryById(int id)
         {
             var parameters = new
             {
@@ -63,24 +65,25 @@ namespace TodoList.DataAccess
             }
         }
 
-        public void UpdateCategory(CategoryModel model)
+        public CategoryModel UpdateCategory(CategoryModel categoryModel)
         {
             var parameters = new
             {
-               categoryId = model.Id,
-               categoryName = model.CategoryName
+               Id = categoryModel.Id,
+               Name = categoryModel.Name
             };
 
-            string updateQuery = @$"update dbo.Category set CategoryName=@categoryName where dbo.Category.Id=@categoryId";
+            string updateQuery = @$"update dbo.Category set Name=@Name where dbo.Category.Id=@Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 connection.Execute(updateQuery, parameters);
             }
+            return categoryModel;
         }
 
-        public void DeleteCategory(int id)
+        public int DeleteCategory(int id)
         {
             var parameters = new
             {
@@ -94,6 +97,8 @@ namespace TodoList.DataAccess
                 connection.Open();
                 connection.Execute(updateQuery, parameters);
             }
+
+            return id;
         }
     }
 }

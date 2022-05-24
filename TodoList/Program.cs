@@ -1,13 +1,29 @@
 using TodoList.interfaces;
 using TodoList.DataAccess;
+using GraphQL;
+using GraphQL.Types;
+using TodoList.GraphQLBlocks;
+using GraphQL.MicrosoftDI;
+using GraphQL.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConncetion");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddSingleton<ITodoDataProvider, TodoDataProvider>(option => new TodoDataProvider(connectionString));
-builder.Services.AddSingleton<ICategoryDataProvider, CategoryDataProvider>(option => new CategoryDataProvider(connectionString));
+builder.Services.AddSingleton<IDataProviderResolver, DataProviderResolver>();
+
+builder.Services.AddTransient(option => new TodoSqlDataProvider(connectionString));
+builder.Services.AddTransient(option => new CategorySqlDataProvider(connectionString));
+builder.Services.AddTransient<TodoXmlDataProvider>();
+builder.Services.AddTransient<CategoryXmlDataProvider>();
+
+builder.Services.AddScoped<ISchema, AppSchema>(services => new AppSchema(new SelfActivatingServiceProvider(services)));
+
+builder.Services.AddGraphQL(option =>
+{
+    option.EnableMetrics = true;
+}).AddSystemTextJson();
 
 builder.Services.AddControllersWithViews();
 
@@ -20,6 +36,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseGraphQL<ISchema>();
+app.UseGraphQLAltair();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

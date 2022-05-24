@@ -66,32 +66,17 @@ table {
 }
 
 main .filter-container {
-    width:700px;
-    margin-left:10px;
-    margin-right:auto;
+    width:90%;
+    display:flex;
+    gap:10px;
+    justify-content:flex-start;
+    
 }
 
 main form {
     display: flex;
     justify-content:flex-start;
     gap: 10px;
-}
-
-main .filter-container button {
-    width: 225px;
-    height: 45px;
-    background: #9B51E0;
-    border: 1px solid #000000;
-    box-sizing: border-box;
-    border-radius: 10px;
-    text-align: center;
-    padding: 10px 0;
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    cursor: pointer;
 }
 
 .current-tasks, .done-tasks {
@@ -172,4 +157,106 @@ td {
 
 .btn:hover {
     background: rgba(199, 173, 219, 0.9);
+}
+
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.description-input input {
+    width: 466px;
+    height: 60px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.deadline-input input {
+    width: 225px;
+    height: 60px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.category-input select, .category-input option {
+    width: 200px;
+    height: 60px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.add-btn {
+    width: 225px;
+    height: 60px;
+    background: #9B51E0;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.filter-btn {
+    display:block;
+    width: 40px;
+    height: 40px;
+    background: url(/img/filter_icon.png) no-repeat center;
+    background-origin: content-box;
+    border-radius: 10px;
+    padding: 22px;
+    cursor:pointer;
+    border: 1px solid black;
+    background-size: 35px 35px;
+}
+
+.edit-category-btn {
+    display: block;
+    width: 35px;
+    height: 35px;
+    background: url(/img/edit_category_icon.png) no-repeat center;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding:5px;
+    background-size: 35px 35px;
+}
+
+main .data-source-container select {
+    width: 225px;
+    height: 45px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding-left: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    
+}
+
+.data-source-container button {
+    height: 45px;
+    width: 70px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(199, 173, 219, 0.7);
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
 }

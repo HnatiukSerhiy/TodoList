@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Categories>
+  <Category>
+    <Id>2</Id>
+    <Name>Education</Name>
+  </Category>
+  <Category>
+    <Id>3</Id>
+    <Name>Home</Name>
+  </Category>
+</Categories>

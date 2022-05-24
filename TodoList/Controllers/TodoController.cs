@@ -1,50 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.Models;
 using TodoList.interfaces;
+using TodoList.DataAccess;
 
 namespace TodoList.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly ITodoDataProvider sqlProcedure;
+        private ITodoDataProvider todoDataProvider;
 
-        public TodoController(ITodoDataProvider procedure)
-        {
-            this.sqlProcedure = procedure;
-        }   
+        private ICategoryDataProvider categoryDataProvider;
 
-        [HttpGet]
-        public ActionResult GetCreateTodoForm()
+        public TodoController(IDataProviderResolver dataProviderResolver)
         {
-            return View("CreateTodo");
+            this.todoDataProvider = dataProviderResolver.GetTodoDataProvider(SourceDataRepository.SourceName);
+            this.categoryDataProvider = dataProviderResolver.GetCategoryDataProvider(SourceDataRepository.SourceName);
         }
 
         [HttpPost]
-        public ActionResult CreateTodo(TodoModel model)
+        public ActionResult CreateTodo(TodoModel todoModel)
         {
+            var completeList = todoDataProvider.GetCompleteTodo(null);
+            var unCompleteList = todoDataProvider.GetUnCompleteTodo(null);
+            var categoryList = categoryDataProvider.GetCategoryList();
+
+            HomeModel homeModel = new HomeModel
+            {
+                CompleteTodoList = completeList,
+                UnCompleteTodoList = unCompleteList,
+                CategoryList = categoryList
+            };
+
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Todo/CreateTodo.cshtml", model);
+                return View("~/Views/Home/Index.cshtml", homeModel);
             }
 
-            sqlProcedure.CreateTodo(model); 
+            todoDataProvider.CreateTodo(todoModel);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public ActionResult SolveTodo(int id)
         {
-            sqlProcedure.SolveTodo(id);
-
+            todoDataProvider.SolveTodo(id);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public ActionResult GetEditFormTodo(int id)
         {
-            var todoModel = sqlProcedure.EditTodo(id);
-
-            return View("EditTodo", todoModel);
+            var todoModel = todoDataProvider.GetTodoById(id);
+            return View("EditTodoPage", todoModel);
         }
 
         [HttpPost]
@@ -52,17 +59,17 @@ namespace TodoList.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Todo/EditTodo.cshtml", model);
+                return View("~/Views/Todo/EditTodoPage.cshtml", model);
             }
 
-            sqlProcedure.UpdateTodo(model);
+            todoDataProvider.UpdateTodo(model);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public ActionResult DeleteTodo(int id)
         {
-            sqlProcedure.DeleteTodo(id);
+            todoDataProvider.DeleteTodo(id);
             return RedirectToAction("Index", "Home");
         }
     }

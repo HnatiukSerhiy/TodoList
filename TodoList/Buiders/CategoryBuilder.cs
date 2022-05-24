@@ -1,16 +1,16 @@
 ﻿using TodoList.Models;
-using System.Data.SqlClient;
+using System.Xml;
 
 namespace TodoList.DataAccess
 {
     public class CategoryBuilder
     {
-        public CategoryModel Build(SqlDataReader reader)
+        public CategoryModel Build(XmlNode categoryNode)
         {
             CategoryModel model = new CategoryModel
             {
-                Id = Convert.ToInt32(reader["Id"]),
-                CategoryName = Convert.ToString(reader["CategoryName"])
+                Id = Convert.ToInt32(categoryNode["Id"].InnerText),
+                Name = categoryNode["Name"].InnerText,
             };
 
             return model;

@@ -25,7 +25,7 @@
                         @foreach(CategoryModel item in Model)
                         {
                             <tr class="category-item">
-                                <td class="category-name">@item.CategoryName</td>
+                                <td class="category-name">@item.Name</td>
                                 <td class="edit-container"><a class="edit-btn" asp-action="GetEditPage" asp-controller="Category" asp-route-id="@item.Id"></a></td>
                                 <td class="del-container"><a class="del-btn" asp-action="DeleteCategory" asp-controller="Category" asp-route-id="@item.Id"></a></td>
                             </tr>

@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.Models;
 using TodoList.interfaces;
+using TodoList.DataAccess;
 
 namespace TodoList.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryDataProvider categoryDataProvider;
+        private ICategoryDataProvider categoryDataProvider;
 
-        public CategoryController(ICategoryDataProvider categoryProvider)
+        public CategoryController(IDataProviderResolver dataProviderResolver)
         {
-            this.categoryDataProvider = categoryProvider;
+            this.categoryDataProvider = dataProviderResolver.GetCategoryDataProvider(SourceDataRepository.SourceName);
         }
 
         [HttpGet]
@@ -41,8 +42,8 @@ namespace TodoList.Controllers
         [HttpGet]
         public ActionResult GetEditPage(int id)
         {
-            CategoryModel model = categoryDataProvider.EditCategory(id);
-            return View("EditCategory", model);
+            CategoryModel model = categoryDataProvider.GetCategoryById(id);
+            return View("EditCategoryPage", model);
         }
 
         [HttpPost]
@@ -50,7 +51,7 @@ namespace TodoList.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("EditCategory", model);
+                return View("EditCategoryPage", model);
             }
 
             categoryDataProvider.UpdateCategory(model);
